@@ -157,7 +157,15 @@ public class Robot extends TimedRobot {
       conveyer.rollerStop();
     }
 
+    if (psController.getRawButton(5)){
+      conveyer.liftUp();
+    }
+
     if (psController.getRawButton(6)){
+      conveyer.liftDown();
+    }
+
+    if (psController.getRawButton(7)){
       climber.elevatorDown();
     } else {
       climber.elevatorStop();

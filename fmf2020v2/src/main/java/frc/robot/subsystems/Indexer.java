@@ -13,6 +13,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Indexer extends SubsystemBase {
@@ -24,10 +26,14 @@ public class Indexer extends SubsystemBase {
   private WPI_TalonSRX beltTop;
   private WPI_TalonSRX wheelThing;
 
+  private DoubleSolenoid lift;
+
   public Indexer() {
     beltBottom = new WPI_TalonSRX(5);
     beltTop = new WPI_TalonSRX(23);
     wheelThing = new WPI_TalonSRX(7);
+
+    lift = new DoubleSolenoid(6,7);
 
     beltBottom.follow(beltTop);
 
@@ -64,6 +70,14 @@ public class Indexer extends SubsystemBase {
 
   public void rollerStop() {
     wheelThing.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void liftUp(){
+    lift.set(Value.kForward);
+  }
+
+  public void liftDown(){
+    lift.set(Value.kReverse);
   }
   //Will add logic for sensor and indexing properly
 
