@@ -37,13 +37,15 @@ public class Indexer extends SubsystemBase {
 
     beltBottom.follow(beltTop);
 
-    beltTop.setInverted(true);
+    beltTop.setInverted(false);
 
     beltTop.setNeutralMode(NeutralMode.Brake);
     beltBottom.setNeutralMode(NeutralMode.Brake);
 
-    wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    wheelThing.setSelectedSensorPosition(0);
+    wheelThing.configFactoryDefault();
+
+    // wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    // wheelThing.setSelectedSensorPosition(0);
   }
 
   @Override
@@ -52,12 +54,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void beltIn() {
-    beltTop.set(ControlMode.PercentOutput, 0.5);
-    // beltBottom.set(ControlMode.PercentOutput, 0.75);
+    beltTop.set(ControlMode.PercentOutput, 1);
   }
 
   public void beltOut() {
-    beltTop.set(ControlMode.PercentOutput, -0.5);
+    beltTop.set(ControlMode.PercentOutput, -1);
   }
 
   public void beltStop() {
@@ -65,7 +66,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void rollerIn() {
-    wheelThing.set(ControlMode.PercentOutput, -0.30);
+    wheelThing.set(ControlMode.PercentOutput, -1);
   }
 
   public void rollerStop() {

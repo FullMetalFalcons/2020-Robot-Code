@@ -45,7 +45,7 @@ public class IntakeSystem extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (done = true) {
-      Robot.conveyer.rollerStop();
+      // Robot.conveyer.rollerStop();
     }
   }
 

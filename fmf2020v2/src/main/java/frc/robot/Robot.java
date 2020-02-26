@@ -130,10 +130,14 @@ public class Robot extends TimedRobot {
     if (psController.getRawButton(1)){
       intake.intakeConstant();
       intake.intakeExtend();
-      conveyer.rollerIn();
     } else {
       intake.intakeStop();
       intake.intakeIn();
+    }
+
+    if (psController.getRawButton(2)){
+      conveyer.rollerIn();
+    } else {
       conveyer.rollerStop();
     }
 
@@ -150,7 +154,7 @@ public class Robot extends TimedRobot {
     }
 
     if (psController.getRawButton(3)){
-      climber.downWeGo();
+      climber.upWeGo();
     } else {
       climber.pleaseStop();
     }
