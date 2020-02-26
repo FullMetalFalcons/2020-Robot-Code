@@ -35,11 +35,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeExtend(){
-    intakeExtend.set(Value.kForward);
+    intakeExtend.set(Value.kReverse);
   }
 
   public void intakeIn(){
-    intakeExtend.set(Value.kReverse);
+    intakeExtend.set(Value.kForward);
   }
 
   public void intakeFast(){

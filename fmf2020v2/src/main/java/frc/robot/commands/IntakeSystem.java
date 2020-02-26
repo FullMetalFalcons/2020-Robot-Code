@@ -16,7 +16,6 @@ public class IntakeSystem extends CommandBase {
   /**
    * Creates a new IntakeSystem.
    */
-  private DigitalInput limit;
   private double startTime;
   private boolean done;
   private final int waitTime = 3;
@@ -24,7 +23,6 @@ public class IntakeSystem extends CommandBase {
   public IntakeSystem() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.conveyer);
-    limit = new DigitalInput(0);
   }
 
   // Called when the command is initially scheduled.
@@ -32,16 +30,12 @@ public class IntakeSystem extends CommandBase {
   public void initialize() {
     done = false;
     startTime = System.currentTimeMillis();
+    Robot.conveyer.beltIn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (limit.get()) {
-      // Robot.conveyer.rollerIn();
-      Timer.delay(1);
-      Robot.conveyer.beltIn();
-    }
     if (System.currentTimeMillis() - startTime > waitTime){
       done = true;
     }

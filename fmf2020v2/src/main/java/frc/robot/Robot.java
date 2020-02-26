@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
    public static Climber climber;
    public static Indexer conveyer;
    public static Intake intake;
+   private DigitalInput limit;
 
    public static IntakeSystem intakeSystem;
 
@@ -83,6 +85,7 @@ public class Robot extends TimedRobot {
     climber = new Climber();
     conveyer = new Indexer();
     intake = new Intake();
+    limit = new DigitalInput(0);
 
     robotContainer = new RobotContainer();
 
@@ -124,25 +127,26 @@ public class Robot extends TimedRobot {
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-
-    // if (psController.getAButton()){
-    //   conveyer.beltIn();
-    // } else {
-    //   conveyer.beltStop();
-    // }
-
-    // if (psController.getBButton()){
-    //   conveyer.beltOut();
-    // } else {
-    //   conveyer.beltStop();
-    // }
-
     if (psController.getRawButton(1)){
       intake.intakeConstant();
       intake.intakeExtend();
+      conveyer.rollerIn();
     } else {
       intake.intakeStop();
       intake.intakeIn();
+      conveyer.rollerStop();
+    }
+
+    if (psController.getRawButton(11)){
+      conveyer.beltIn();
+    } else {
+      conveyer.beltStop();
+    }
+
+    if (psController.getRawButton(12)){
+      conveyer.beltOut();
+    } else {
+      conveyer.beltStop();
     }
 
     if (psController.getRawButton(3)){
@@ -177,36 +181,32 @@ public class Robot extends TimedRobot {
       climber.elevatorStop();
     }
 
-    // if (psController.getYButton()){
-    //   intake.intakeFast();
-    // } else {
-    //   intake.intakeStop();
-    // }
-   
-    // rotationAjust = 0;
-    // distanceAdjust = 0;
+    rotationAjust = 0;
+    distanceAdjust = 0;
 
-    // if (psController.getXButton()){
+    if (psController.getRawButton(12)){
       
-    //   rotationError=targetX.getDouble(0.0);
-    //   distanceError=targetY.getDouble(0.0);
+      rotationError=targetX.getDouble(0.0);
+      distanceError=targetY.getDouble(0.0);
 
-    //   if(rotationError>angleTolerance)
-    //     rotationAjust=KpRot*rotationError+constantForce;
-    //   else
-    //     if(rotationError<angleTolerance)
-    //       rotationAjust=KpRot*rotationError-constantForce;
+      if(rotationError>angleTolerance)
+        rotationAjust=KpRot*rotationError+constantForce;
+      else
+        if(rotationError<angleTolerance)
+          rotationAjust=KpRot*rotationError-constantForce;
 
-    //   if(distanceError>distanceTolerance)
-    //     distanceAdjust=KpDist*distanceError+constantForce;
-    //   else
-    //     if(distanceError<distanceTolerance)
-    //       distanceAdjust=KpDist*distanceError-constantForce;
+      if(distanceError>distanceTolerance)
+        distanceAdjust=KpDist*distanceError+constantForce;
+      else
+        if(distanceError<distanceTolerance)
+          distanceAdjust=KpDist*distanceError-constantForce;
 
-    //   drivetrain.arcadeDrive(distanceAdjust, rotationAjust);
-
-    // }
-
+      drivetrain.arcadeDrive(distanceAdjust, rotationAjust);
+    }
+    
+    if (limit.get()) {
+      
+    }
 
   }
 
