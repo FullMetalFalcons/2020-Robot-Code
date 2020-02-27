@@ -113,7 +113,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void elevatorDown() {
-    elevatorMotor.set(-1.0);
+    elevatorMotor.set(-0.5);
   }
 
   public void elevatorStop() {

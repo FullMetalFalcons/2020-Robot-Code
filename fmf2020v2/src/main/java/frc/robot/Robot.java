@@ -202,12 +202,19 @@ public class Robot extends TimedRobot {
       climber.pleaseStop();
     }
 
+    if (psController.getRawButtonPressed(14)){
+      conveyer.rollerIn();
+    }
+
+    if (psController.getRawButtonReleased(14)){
+      conveyer.rollerStop();
+    }
     
 
     rotationAjust = 0;
     distanceAdjust = 0;
 
-    if (psController.getRawButton(12)){
+    if (psController.getRawButton(13)){
       
       rotationError=targetX.getDouble(0.0);
       distanceError=targetY.getDouble(0.0);
