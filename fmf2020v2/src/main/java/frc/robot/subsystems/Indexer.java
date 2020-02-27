@@ -11,7 +11,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -28,10 +30,14 @@ public class Indexer extends SubsystemBase {
 
   private DoubleSolenoid lift;
 
+  public DigitalInput limitSwitch;
+
   public Indexer() {
     beltBottom = new WPI_TalonSRX(5);
     beltTop = new WPI_TalonSRX(23);
     wheelThing = new WPI_TalonSRX(7);
+
+    limitSwitch = new DigitalInput(0);
 
     lift = new DoubleSolenoid(6,7);
 
@@ -43,9 +49,19 @@ public class Indexer extends SubsystemBase {
     beltBottom.setNeutralMode(NeutralMode.Brake);
 
     wheelThing.configFactoryDefault();
+    
+    TalonSRXConfiguration talonConfig = new TalonSRXConfiguration();
+    talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
+    talonConfig.slot0.kP = 0.1;
+    talonConfig.slot0.kI = 0.0;
+    talonConfig.slot0.kD = 0.0;
+    wheelThing.setNeutralMode(NeutralMode.Coast);
 
-    // wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    // wheelThing.setSelectedSensorPosition(0);
+    wheelThing.configAllSettings(talonConfig);
+    wheelThing.overrideLimitSwitchesEnable(false);
+    wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    wheelThing.setSensorPhase(true);
+
   }
 
   @Override
@@ -66,7 +82,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void rollerIn() {
-    wheelThing.set(ControlMode.PercentOutput, -1);
+    wheelThing.set(ControlMode.Position, 0.5 * 4096);
   }
 
   public void rollerStop() {
@@ -79,6 +95,10 @@ public class Indexer extends SubsystemBase {
 
   public void liftDown(){
     lift.set(Value.kReverse);
+  }
+
+  public boolean isBallAvailable() {
+    return !limitSwitch.get();
   }
   //Will add logic for sensor and indexing properly
 

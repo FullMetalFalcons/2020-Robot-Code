@@ -45,7 +45,6 @@ public class Robot extends TimedRobot {
    public static Climber climber;
    public static Indexer conveyer;
    public static Intake intake;
-   private DigitalInput limit;
 
    public static IntakeSystem intakeSystem;
 
