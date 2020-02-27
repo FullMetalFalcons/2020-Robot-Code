@@ -85,7 +85,8 @@ public class Robot extends TimedRobot {
     climber = new Climber();
     conveyer = new Indexer();
     intake = new Intake();
-    limit = new DigitalInput(0);
+
+    autoIntake = new IntakeSystem();
 
     robotContainer = new RobotContainer();
 
@@ -94,6 +95,8 @@ public class Robot extends TimedRobot {
 
     targetX=table.getEntry("yaw");
     targetY=table.getEntry("pitch");
+
+    this.intake.intakeIn();
   }
 
   @Override
@@ -127,63 +130,79 @@ public class Robot extends TimedRobot {
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-    if (psController.getRawButton(1)){
+    if (psController.getRawButtonPressed(1)){
       intake.intakeConstant();
-      intake.intakeExtend();
-    } else {
+    } 
+    if (psController.getRawButtonReleased(1)) {
       intake.intakeStop();
-      intake.intakeIn();
     }
 
-    if (psController.getRawButton(2)){
-      conveyer.rollerIn();
-    } else {
-      conveyer.rollerStop();
+    if (psController.getRawButtonPressed(2)){
+      intake.intakeReverse();
+    } 
+    if (psController.getRawButtonReleased(2)){
+      intake.intakeStop();
     }
 
-    if (psController.getRawButton(11)){
+    if (psController.getRawButtonPressed(11)){
       conveyer.beltIn();
-    } else {
+    } 
+    if (psController.getRawButtonReleased(11)) {
       conveyer.beltStop();
     }
 
-    if (psController.getRawButton(12)){
+    if (psController.getRawButtonPressed(12)){
       conveyer.beltOut();
-    } else {
+    }
+    if (psController.getRawButtonReleased(12)) {
       conveyer.beltStop();
-    }
-
-    if (psController.getRawButton(3)){
-      climber.upWeGo();
-    } else {
-      climber.pleaseStop();
-    }
-
-    if (psController.getRawButton(4)){
-      conveyer.rollerIn();
-    } else {
-      conveyer.rollerStop();
     }
 
     if (psController.getRawButton(5)){
-      conveyer.liftUp();
+      intake.intakeExtend();
     }
 
     if (psController.getRawButton(6)){
-      conveyer.liftDown();
+      intake.intakeIn();
     }
 
     if (psController.getRawButton(7)){
       climber.elevatorDown();
-    } else {
+    } 
+    
+    if (psController.getRawButtonReleased(7)){
       climber.elevatorStop();
     }
 
     if (psController.getRawButton(8)){
       climber.elevatorUp();
-    } else {
+    } 
+
+    if (psController.getRawButtonReleased(8)){
       climber.elevatorStop();
     }
+
+    if (psController.getRawButton(9)){
+      autoIntake.schedule();
+    }
+
+    if (psController.getRawButtonPressed(3)){
+      climber.upWeGo();
+    }
+
+    if (psController.getRawButtonReleased(3)){
+      climber.pleaseStop();
+    }
+
+    if (psController.getRawButtonPressed(4)){
+      climber.downWeGo();
+    }
+
+    if (psController.getRawButtonReleased(4)){
+      climber.pleaseStop();
+    }
+
+    
 
     rotationAjust = 0;
     distanceAdjust = 0;
@@ -206,10 +225,6 @@ public class Robot extends TimedRobot {
           distanceAdjust=KpDist*distanceError-constantForce;
 
       drivetrain.arcadeDrive(distanceAdjust, rotationAjust);
-    }
-    
-    if (limit.get()) {
-      
     }
 
   }

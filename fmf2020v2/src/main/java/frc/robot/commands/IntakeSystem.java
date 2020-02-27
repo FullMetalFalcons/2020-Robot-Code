@@ -22,31 +22,28 @@ public class IntakeSystem extends CommandBase {
 
   public IntakeSystem() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.conveyer);
+    addRequirements(Robot.intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     done = false;
-    startTime = System.currentTimeMillis();
-    Robot.conveyer.beltIn();
+    Robot.intake.intakeFast();
+    Robot.intake.intakeExtend();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (System.currentTimeMillis() - startTime > waitTime){
-      done = true;
-    }
+    done = Robot.intake.isBallAvailable();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (done = true) {
-      // Robot.conveyer.rollerStop();
-    }
+    Robot.intake.intakeStop();
   }
 
   // Returns true when the command should end.

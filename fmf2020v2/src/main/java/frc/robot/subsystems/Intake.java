@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,16 +23,21 @@ public class Intake extends SubsystemBase {
    private WPI_TalonSRX intakeMotor;
 
    private DoubleSolenoid intakeExtend;
+   
+   public DigitalInput limitSwitch;
 
   public Intake() {
     intakeMotor = new WPI_TalonSRX(12);
 
     intakeExtend = new DoubleSolenoid(5,4);
+
+    limitSwitch = new DigitalInput(0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 
   public void intakeExtend(){
@@ -56,5 +62,9 @@ public class Intake extends SubsystemBase {
 
   public void intakeStop() {
     intakeMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public boolean isBallAvailable() {
+    return !limitSwitch.get();
   }
 }
