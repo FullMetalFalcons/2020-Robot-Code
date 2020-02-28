@@ -39,7 +39,8 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
 
-   public XboxController psController;
+   public XboxController driverController;
+   public XboxController operatorController;
 
    public static Drivetrain drivetrain;
    public static WheelOfFortune wheelOfFortune;
@@ -80,7 +81,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture();
 
-    psController = new XboxController(0);
+    driverController = new XboxController(0);
+    operatorController = new XboxController(1);
 
     drivetrain = new Drivetrain();
     wheelOfFortune = new WheelOfFortune();
@@ -89,17 +91,17 @@ public class Robot extends TimedRobot {
     conveyer = new Indexer();
     intake = new Intake();
 
-    //autoIntake = new IntakeSystem();
+    // autoIntake = new IntakeSystem();
     advanceBall = new AdvanceBallOnBelt();
     robotContainer = new RobotContainer();
     pickupStage1 = new BallPickupStage1();
-    ballIntake = new SequentialCommandGroup(new BallPickupStage1(), new WaitCommand(1), new BallPickupStage2(), new WaitCommand(1), new BallPickupStage1(), new AdvanceBallOnBelt());
-    
+    ballIntake = new SequentialCommandGroup(new BallPickupStage1(), new WaitCommand(1), new BallPickupStage2(),
+        new WaitCommand(1), new BallPickupStage1(), new AdvanceBallOnBelt());
 
-    table=NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
+    table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
 
-    targetX=table.getEntry("yaw");
-    targetY=table.getEntry("pitch");
+    targetX = table.getEntry("yaw");
+    targetY = table.getEntry("pitch");
 
     this.intake.intakeIn();
   }
@@ -130,126 +132,125 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double leftYStick = psController.getY(Hand.kLeft);
-    double rightYStick = psController.getY(Hand.kRight);
+    double leftYStick = driverController.getY(Hand.kLeft);
+    double rightYStick = driverController.getY(Hand.kRight);
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-    if (psController.getRawButton(11)){
+    if (driverController.getRawButton(6)) {
       intake.intakeExtend();
     }
 
-    if (psController.getRawButton(12)){
+    if (driverController.getRawButton(7)) {
       intake.intakeIn();
     }
 
-    if (psController.getRawButton(1)){
+    if (driverController.getRawButton(1)) {
       ballIntake.schedule();
     }
 
-    if (psController.getRawButtonPressed(2)){
+    if (driverController.getRawButtonPressed(2)) {
       intake.intakeFast();
       intake.intakeExtend();
     }
 
-    if (psController.getRawButtonReleased(2)){
+    if (driverController.getRawButtonReleased(2)) {
       intake.intakeStop();
     }
 
-    if (psController.getRawButtonPressed(3)){
+    if (driverController.getRawButtonPressed(3)) {
       conveyer.beltFast();
     }
 
-    if (psController.getRawButtonReleased(3)){
+    if (driverController.getRawButtonReleased(3)) {
       conveyer.beltStop();
     }
 
     // if (psController.getRawButtonPressed(1)){
-    //   intake.intakeConstant();
-    // } 
+    // intake.intakeConstant();
+    // }
     // if (psController.getRawButtonReleased(1)) {
-    //   intake.intakeStop();
+    // intake.intakeStop();
     // }
 
     // if (psController.getRawButtonPressed(2)){
-    //   intake.intakeReverse();
-    // } 
+    // intake.intakeReverse();
+    // }
     // if (psController.getRawButtonReleased(2)){
-    //   intake.intakeStop();
+    // intake.intakeStop();
     // }
 
     // if (psController.getRawButtonPressed(11)){
-    //   conveyer.beltIn();
-    // } 
+    // conveyer.beltIn();
+    // }
     // if (psController.getRawButtonReleased(11)) {
-    //   conveyer.beltStop();
+    // conveyer.beltStop();
     // }
 
     // if (psController.getRawButtonPressed(12)){
-    // //  conveyer.beltOut();
+    // // conveyer.beltOut();
     // advanceBall.schedule();
     // }
     // //if (psController.getRawButtonReleased(12)) {
-    // //  conveyer.beltStop();
+    // // conveyer.beltStop();
     // //}
 
     // if (psController.getRawButton(5)){
-    //   intake.intakeExtend();
+    // intake.intakeExtend();
     // }
 
     // if (psController.getRawButton(6)){
-    //   intake.intakeIn();
+    // intake.intakeIn();
     // }
 
     // if (psController.getRawButton(7)){
-    //   climber.elevatorDown();
-    // } 
-    
+    // climber.elevatorDown();
+    // }
+
     // if (psController.getRawButtonReleased(7)){
-    //   climber.elevatorStop();
+    // climber.elevatorStop();
     // }
 
     // if (psController.getRawButton(8)){
-    //   climber.elevatorUp();
-    // } 
+    // climber.elevatorUp();
+    // }
 
     // if (psController.getRawButtonReleased(8)){
-    //   climber.elevatorStop();
+    // climber.elevatorStop();
     // }
 
     // if (psController.getRawButton(9)){
-    //   ballIntake.schedule();
+    // ballIntake.schedule();
     // }
 
     // if (psController.getRawButtonPressed(3)){
-    //   climber.upWeGo();
+    // climber.upWeGo();
     // }
 
     // if (psController.getRawButtonReleased(3)){
-    //   climber.pleaseStop();
+    // climber.pleaseStop();
     // }
 
     // if (psController.getRawButtonPressed(4)){
-    //   climber.downWeGo();
+    // climber.downWeGo();
     // }
 
     // if (psController.getRawButtonReleased(4)){
-    //   climber.pleaseStop();
+    // climber.pleaseStop();
     // }
 
     // if (psController.getRawButtonPressed(14)){
-    //   conveyer.beltFast();
+    // conveyer.beltFast();
     // }
 
     // if (psController.getRawButtonReleased(14)){
-    //   conveyer.beltStop();
+    // conveyer.beltStop();
     // }
-    
 
     rotationAjust = 0;
     distanceAdjust = 0;
 
-    if (psController.getRawButton(13)){
+    if (driverController.getRawButton(13)) {
       
       rotationError=targetX.getDouble(0.0);
       distanceError=targetY.getDouble(0.0);
