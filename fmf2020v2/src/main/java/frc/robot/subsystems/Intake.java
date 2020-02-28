@@ -43,11 +43,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeFast(){
-    intakeMotor.set(ControlMode.PercentOutput, 0.35);
+    intakeMotor.set(ControlMode.PercentOutput, 0.65);
   }
 
   public void intakeConstant(){
-    intakeMotor.set(ControlMode.PercentOutput, 0.35);
+    intakeMotor.set(ControlMode.PercentOutput, 0.65);
   }
 
   public void intakeReverse(){

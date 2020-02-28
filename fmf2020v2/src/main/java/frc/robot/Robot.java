@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
@@ -23,6 +24,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.WheelOfFortune;
+import edu.wpi.first.wpilibj2.command.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
    //public static IntakeSystem autoIntake;
    public static AdvanceBallOnBelt advanceBall;
    public static BallPickupStage1 pickupStage1;
+   public static SequentialCommandGroup ballIntake;
    private double rotationError;
    private double distanceError;
 
@@ -90,6 +93,8 @@ public class Robot extends TimedRobot {
     advanceBall = new AdvanceBallOnBelt();
     robotContainer = new RobotContainer();
     pickupStage1 = new BallPickupStage1();
+    ballIntake = new SequentialCommandGroup(new BallPickupStage1(), new WaitCommand(1), new BallPickupStage2(), new WaitCommand(1), new BallPickupStage1(), new AdvanceBallOnBelt());
+    
 
     table=NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
 
@@ -130,86 +135,115 @@ public class Robot extends TimedRobot {
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-    if (psController.getRawButtonPressed(1)){
-      intake.intakeConstant();
-    } 
-    if (psController.getRawButtonReleased(1)) {
-      intake.intakeStop();
+    if (psController.getRawButton(11)){
+      intake.intakeExtend();
+    }
+
+    if (psController.getRawButton(12)){
+      intake.intakeIn();
+    }
+
+    if (psController.getRawButton(1)){
+      ballIntake.schedule();
     }
 
     if (psController.getRawButtonPressed(2)){
-      intake.intakeReverse();
-    } 
+      intake.intakeFast();
+      intake.intakeExtend();
+    }
+
     if (psController.getRawButtonReleased(2)){
       intake.intakeStop();
     }
 
-    if (psController.getRawButtonPressed(11)){
-      conveyer.beltIn();
-    } 
-    if (psController.getRawButtonReleased(11)) {
-      conveyer.beltStop();
-    }
-
-    if (psController.getRawButtonPressed(12)){
-    //  conveyer.beltOut();
-    advanceBall.schedule();
-    }
-    //if (psController.getRawButtonReleased(12)) {
-    //  conveyer.beltStop();
-    //}
-
-    if (psController.getRawButton(5)){
-      intake.intakeExtend();
-    }
-
-    if (psController.getRawButton(6)){
-      intake.intakeIn();
-    }
-
-    if (psController.getRawButton(7)){
-      climber.elevatorDown();
-    } 
-    
-    if (psController.getRawButtonReleased(7)){
-      climber.elevatorStop();
-    }
-
-    if (psController.getRawButton(8)){
-      climber.elevatorUp();
-    } 
-
-    if (psController.getRawButtonReleased(8)){
-      climber.elevatorStop();
-    }
-
-    if (psController.getRawButton(9)){
-      pickupStage1.schedule();
-    }
-
     if (psController.getRawButtonPressed(3)){
-      climber.upWeGo();
-    }
-
-    if (psController.getRawButtonReleased(3)){
-      climber.pleaseStop();
-    }
-
-    if (psController.getRawButtonPressed(4)){
-      climber.downWeGo();
-    }
-
-    if (psController.getRawButtonReleased(4)){
-      climber.pleaseStop();
-    }
-
-    if (psController.getRawButtonPressed(14)){
       conveyer.beltFast();
     }
 
-    if (psController.getRawButtonReleased(14)){
+    if (psController.getRawButtonReleased(3)){
       conveyer.beltStop();
     }
+
+    // if (psController.getRawButtonPressed(1)){
+    //   intake.intakeConstant();
+    // } 
+    // if (psController.getRawButtonReleased(1)) {
+    //   intake.intakeStop();
+    // }
+
+    // if (psController.getRawButtonPressed(2)){
+    //   intake.intakeReverse();
+    // } 
+    // if (psController.getRawButtonReleased(2)){
+    //   intake.intakeStop();
+    // }
+
+    // if (psController.getRawButtonPressed(11)){
+    //   conveyer.beltIn();
+    // } 
+    // if (psController.getRawButtonReleased(11)) {
+    //   conveyer.beltStop();
+    // }
+
+    // if (psController.getRawButtonPressed(12)){
+    // //  conveyer.beltOut();
+    // advanceBall.schedule();
+    // }
+    // //if (psController.getRawButtonReleased(12)) {
+    // //  conveyer.beltStop();
+    // //}
+
+    // if (psController.getRawButton(5)){
+    //   intake.intakeExtend();
+    // }
+
+    // if (psController.getRawButton(6)){
+    //   intake.intakeIn();
+    // }
+
+    // if (psController.getRawButton(7)){
+    //   climber.elevatorDown();
+    // } 
+    
+    // if (psController.getRawButtonReleased(7)){
+    //   climber.elevatorStop();
+    // }
+
+    // if (psController.getRawButton(8)){
+    //   climber.elevatorUp();
+    // } 
+
+    // if (psController.getRawButtonReleased(8)){
+    //   climber.elevatorStop();
+    // }
+
+    // if (psController.getRawButton(9)){
+    //   ballIntake.schedule();
+    // }
+
+    // if (psController.getRawButtonPressed(3)){
+    //   climber.upWeGo();
+    // }
+
+    // if (psController.getRawButtonReleased(3)){
+    //   climber.pleaseStop();
+    // }
+
+    // if (psController.getRawButtonPressed(4)){
+    //   climber.downWeGo();
+    // }
+
+    // if (psController.getRawButtonReleased(4)){
+    //   climber.pleaseStop();
+    // }
+
+    // if (psController.getRawButtonPressed(14)){
+    //   conveyer.beltFast();
+    // }
+
+    // if (psController.getRawButtonReleased(14)){
+    //   conveyer.beltStop();
+    // }
     
 
     rotationAjust = 0;

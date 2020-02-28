@@ -7,34 +7,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 
-public class BallPickupStage1 extends InstantCommand {
-  /**
-   * Creates a new IntakeSystem.
-   */
-  private double startTime;
-  private boolean done;
-  private final int waitTime = 3;
-
-  public BallPickupStage1() {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class BallPickupStage2 extends InstantCommand {
+  public BallPickupStage2() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.conveyer);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    done = false;
-    //Robot.conveyer.rollerIn();
-    //Robot.conveyer.beltIn();
-    Robot.intake.intakeStop();
-    Robot.intake.intakeIn();
-    }
-  // Called every time the scheduler runs while the command is scheduled.
-  
+    Robot.intake.intakeExtend();
+  }
 }
