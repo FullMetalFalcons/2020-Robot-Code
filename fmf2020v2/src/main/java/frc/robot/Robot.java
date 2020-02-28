@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeSystem;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Drivetrain;
@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
    public static Indexer conveyer;
    public static Intake intake;
 
-   public static IntakeSystem intakeSystem;
+   //public static IntakeSystem intakeSystem;
 
    private RobotContainer robotContainer;
    private edu.wpi.first.wpilibj2.command.Command autonomousCommand;
@@ -56,8 +56,9 @@ public class Robot extends TimedRobot {
    private NetworkTableEntry targetX;
    private NetworkTableEntry targetY;
 
-   public static IntakeSystem autoIntake;
-
+   //public static IntakeSystem autoIntake;
+   public static AdvanceBallOnBelt advanceBall;
+   public static BallPickupStage1 pickupStage1;
    private double rotationError;
    private double distanceError;
 
@@ -85,10 +86,10 @@ public class Robot extends TimedRobot {
     conveyer = new Indexer();
     intake = new Intake();
 
-    autoIntake = new IntakeSystem();
-
+    //autoIntake = new IntakeSystem();
+    advanceBall = new AdvanceBallOnBelt();
     robotContainer = new RobotContainer();
-
+    pickupStage1 = new BallPickupStage1();
 
     table=NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
 
@@ -151,11 +152,12 @@ public class Robot extends TimedRobot {
     }
 
     if (psController.getRawButtonPressed(12)){
-      conveyer.beltOut();
+    //  conveyer.beltOut();
+    advanceBall.schedule();
     }
-    if (psController.getRawButtonReleased(12)) {
-      conveyer.beltStop();
-    }
+    //if (psController.getRawButtonReleased(12)) {
+    //  conveyer.beltStop();
+    //}
 
     if (psController.getRawButton(5)){
       intake.intakeExtend();
@@ -182,7 +184,7 @@ public class Robot extends TimedRobot {
     }
 
     if (psController.getRawButton(9)){
-      autoIntake.schedule();
+      pickupStage1.schedule();
     }
 
     if (psController.getRawButtonPressed(3)){
@@ -202,11 +204,11 @@ public class Robot extends TimedRobot {
     }
 
     if (psController.getRawButtonPressed(14)){
-      conveyer.rollerIn();
+      conveyer.beltFast();
     }
 
     if (psController.getRawButtonReleased(14)){
-      conveyer.rollerStop();
+      conveyer.beltStop();
     }
     
 

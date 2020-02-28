@@ -7,46 +7,43 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class IntakeSystem extends CommandBase {
+public class AdvanceBallOnBelt extends CommandBase {
   /**
-   * Creates a new IntakeSystem.
+   * Creates a new AutoIndex.
    */
-  private double startTime;
-  private boolean done;
-  private final int waitTime = 3;
 
-  public IntakeSystem() {
+  private double startTime;
+
+  public AdvanceBallOnBelt() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.conveyer);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    done = false;
-    Robot.conveyer.rollerIn();
+    startTime = System.currentTimeMillis();
+    Robot.conveyer.beltIn();
+    // Robot.conveyer.rollerIn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    done = Robot.conveyer.isBallAvailable();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.conveyer.rollerStop();
+    Robot.conveyer.beltStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return done;
+
+    return System.currentTimeMillis() -startTime > 2000;
   }
 }

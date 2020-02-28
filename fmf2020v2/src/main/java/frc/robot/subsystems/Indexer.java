@@ -50,17 +50,17 @@ public class Indexer extends SubsystemBase {
 
     wheelThing.configFactoryDefault();
     
-    TalonSRXConfiguration talonConfig = new TalonSRXConfiguration();
-    talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
-    talonConfig.slot0.kP = 0.1;
-    talonConfig.slot0.kI = 0.0;
-    talonConfig.slot0.kD = 0.0;
-    wheelThing.setNeutralMode(NeutralMode.Coast);
+    // TalonSRXConfiguration talonConfig = new TalonSRXConfiguration();
+    // talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
+    // talonConfig.slot0.kP = 0.1;
+    // talonConfig.slot0.kI = 0.0;
+    // talonConfig.slot0.kD = 0.0;
+    // wheelThing.setNeutralMode(NeutralMode.Coast);
 
-    wheelThing.configAllSettings(talonConfig);
-    wheelThing.overrideLimitSwitchesEnable(false);
-    wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    wheelThing.setSensorPhase(true);
+    // wheelThing.configAllSettings(talonConfig);
+    // wheelThing.overrideLimitSwitchesEnable(false);
+    // wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    // wheelThing.setSensorPhase(true);
 
   }
 
@@ -70,11 +70,11 @@ public class Indexer extends SubsystemBase {
   }
 
   public void beltIn() {
-    beltTop.set(ControlMode.PercentOutput, 1);
+    beltTop.set(ControlMode.PercentOutput, -0.20);
   }
 
   public void beltOut() {
-    beltTop.set(ControlMode.PercentOutput, -1);
+    beltTop.set(ControlMode.PercentOutput, 0.20);
   }
 
   public void beltStop() {
@@ -82,7 +82,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void rollerIn() {
-    wheelThing.set(ControlMode.Position, 0.5 * 4096);
+    wheelThing.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void rollerStop() {
@@ -99,6 +99,10 @@ public class Indexer extends SubsystemBase {
 
   public boolean isBallAvailable() {
     return !limitSwitch.get();
+  }
+
+  public void beltFast() {
+    beltTop.set(ControlMode.PercentOutput, -1);
   }
   //Will add logic for sensor and indexing properly
 
