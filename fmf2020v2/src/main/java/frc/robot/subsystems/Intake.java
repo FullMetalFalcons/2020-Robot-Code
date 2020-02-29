@@ -38,19 +38,15 @@ public class Intake extends SubsystemBase {
     intakeExtend.set(Value.kReverse);
   }
 
-  public void intakeIn(){
+  public void intakeRetract(){
     intakeExtend.set(Value.kForward);
   }
 
-  public void intakeFast(){
+  public void intakeIn(){
     intakeMotor.set(ControlMode.PercentOutput, 0.65);
   }
 
-  public void intakeConstant(){
-    intakeMotor.set(ControlMode.PercentOutput, 0.65);
-  }
-
-  public void intakeReverse(){
+  public void intakeOut(){
     intakeMotor.set(ControlMode.PercentOutput, -0.75);
   }
 
