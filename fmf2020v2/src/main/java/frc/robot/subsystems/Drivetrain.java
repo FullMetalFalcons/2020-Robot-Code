@@ -43,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
 
   private DifferentialDrive diffDrive;
 
-  private final AHRS gyro;
+  private AHRS gyro;
 
   private final DifferentialDriveOdometry differentialDriveOdometry;
   private Pose2d savedPose;
@@ -121,6 +121,8 @@ public class Drivetrain extends SubsystemBase {
         stepsToMeters(getRightEncoderPosition()));
     SmartDashboard.putString("Pose", differentialDriveOdometry.getPoseMeters().toString());
     // This method will be called once per scheduler run
+
+    System.out.println(gyro.getAngle());
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
