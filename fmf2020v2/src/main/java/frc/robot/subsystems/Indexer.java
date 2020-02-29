@@ -26,7 +26,6 @@ public class Indexer extends SubsystemBase {
 
   private WPI_TalonSRX beltBottom;
   private WPI_TalonSRX beltTop;
-  private WPI_TalonSRX wheelThing;
 
   private DoubleSolenoid lift;
 
@@ -35,7 +34,6 @@ public class Indexer extends SubsystemBase {
   public Indexer() {
     beltBottom = new WPI_TalonSRX(5);
     beltTop = new WPI_TalonSRX(23);
-    wheelThing = new WPI_TalonSRX(7);
 
     limitSwitch = new DigitalInput(0);
 
@@ -48,20 +46,6 @@ public class Indexer extends SubsystemBase {
     beltTop.setNeutralMode(NeutralMode.Brake);
     beltBottom.setNeutralMode(NeutralMode.Brake);
 
-    wheelThing.configFactoryDefault();
-    
-    // TalonSRXConfiguration talonConfig = new TalonSRXConfiguration();
-    // talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
-    // talonConfig.slot0.kP = 0.1;
-    // talonConfig.slot0.kI = 0.0;
-    // talonConfig.slot0.kD = 0.0;
-    // wheelThing.setNeutralMode(NeutralMode.Coast);
-
-    // wheelThing.configAllSettings(talonConfig);
-    // wheelThing.overrideLimitSwitchesEnable(false);
-    // wheelThing.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    // wheelThing.setSensorPhase(true);
-
   }
 
   @Override
@@ -69,11 +53,15 @@ public class Indexer extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void beltIn() {
+  public void beltUp() {
     beltTop.set(ControlMode.PercentOutput, -0.20);
   }
 
-  public void beltOut() {
+  public void beltFastOut() {
+    beltTop.set(ControlMode.PercentOutput, -1);
+  }
+
+  public void beltDown() {
     beltTop.set(ControlMode.PercentOutput, 0.20);
   }
 
@@ -81,30 +69,15 @@ public class Indexer extends SubsystemBase {
     beltTop.set(ControlMode.PercentOutput, 0);
   }
 
-  public void rollerIn() {
-    wheelThing.set(ControlMode.PercentOutput, -0.5);
-  }
-
-  public void rollerStop() {
-    wheelThing.set(ControlMode.PercentOutput, 0);
-  }
-
-  public void liftUp(){
+  public void conveyerUp(){
     lift.set(Value.kForward);
   }
 
-  public void liftDown(){
+  public void conveyerDown(){
     lift.set(Value.kReverse);
   }
 
   public boolean isBallAvailable() {
     return !limitSwitch.get();
-  }
-
-  public void beltFast() {
-    beltTop.set(ControlMode.PercentOutput, -1);
-  }
-  //Will add logic for sensor and indexing properly
-
-  
+  } 
 }

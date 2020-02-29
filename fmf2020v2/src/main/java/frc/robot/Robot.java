@@ -49,8 +49,6 @@ public class Robot extends TimedRobot {
    public static Indexer conveyer;
    public static Intake intake;
 
-   //public static IntakeSystem intakeSystem;
-
    private RobotContainer robotContainer;
    private edu.wpi.first.wpilibj2.command.Command autonomousCommand;
 
@@ -150,7 +148,7 @@ public class Robot extends TimedRobot {
     }
 
     if (driverController.getRawButtonPressed(2)) {
-      intake.intakeFast();
+      intake.intakeIn();
       intake.intakeExtend();
     }
 
@@ -159,91 +157,93 @@ public class Robot extends TimedRobot {
     }
 
     if (driverController.getRawButtonPressed(3)) {
-      conveyer.beltFast();
+      conveyer.beltUp();
     }
 
     if (driverController.getRawButtonReleased(3)) {
       conveyer.beltStop();
     }
 
-    // if (psController.getRawButtonPressed(1)){
+////////////
+
+    // if (driverController.getRawButtonPressed(1)){
     // intake.intakeConstant();
     // }
-    // if (psController.getRawButtonReleased(1)) {
-    // intake.intakeStop();
+    // if (driverController.getRawButtonReleased(1)) {
+    //   intake.intakeStop();
     // }
 
-    // if (psController.getRawButtonPressed(2)){
-    // intake.intakeReverse();
+    // if (driverController.getRawButtonPressed(2)) {
+    //   intake.intakeReverse();
     // }
-    // if (psController.getRawButtonReleased(2)){
-    // intake.intakeStop();
-    // }
-
-    // if (psController.getRawButtonPressed(11)){
-    // conveyer.beltIn();
-    // }
-    // if (psController.getRawButtonReleased(11)) {
-    // conveyer.beltStop();
+    // if (driverController.getRawButtonReleased(2)) {
+    //   intake.intakeStop();
     // }
 
-    // if (psController.getRawButtonPressed(12)){
-    // // conveyer.beltOut();
-    // advanceBall.schedule();
+    // if (driverController.getRawButtonPressed(11)) {
+    //   conveyer.beltIn();
     // }
-    // //if (psController.getRawButtonReleased(12)) {
+    // if (driverController.getRawButtonReleased(11)) {
+    //   conveyer.beltStop();
+    // }
+
+    // if (driverController.getRawButtonPressed(12)) {
+    //   // conveyer.beltOut();
+    //   advanceBall.schedule();
+    // }
+    // // if (psController.getRawButtonReleased(12)) {
     // // conveyer.beltStop();
-    // //}
+    // // }
 
-    // if (psController.getRawButton(5)){
-    // intake.intakeExtend();
+    // if (driverController.getRawButton(5)) {
+    //   intake.intakeExtend();
     // }
 
-    // if (psController.getRawButton(6)){
-    // intake.intakeIn();
+    // if (driverController.getRawButton(6)) {
+    //   intake.intakeIn();
     // }
 
-    // if (psController.getRawButton(7)){
-    // climber.elevatorDown();
+    // if (driverController.getRawButton(7)) {
+    //   climber.elevatorDown();
     // }
 
-    // if (psController.getRawButtonReleased(7)){
-    // climber.elevatorStop();
+    // if (driverController.getRawButtonReleased(7)) {
+    //   climber.elevatorStop();
     // }
 
-    // if (psController.getRawButton(8)){
-    // climber.elevatorUp();
+    // if (driverController.getRawButton(8)) {
+    //   climber.elevatorUp();
     // }
 
-    // if (psController.getRawButtonReleased(8)){
-    // climber.elevatorStop();
+    // if (driverController.getRawButtonReleased(8)) {
+    //   climber.elevatorStop();
     // }
 
-    // if (psController.getRawButton(9)){
-    // ballIntake.schedule();
+    // if (driverController.getRawButton(9)) {
+    //   ballIntake.schedule();
     // }
 
-    // if (psController.getRawButtonPressed(3)){
-    // climber.upWeGo();
+    // if (driverController.getRawButtonPressed(3)) {
+    //   climber.upWeGo();
     // }
 
-    // if (psController.getRawButtonReleased(3)){
-    // climber.pleaseStop();
+    // if (driverController.getRawButtonReleased(3)) {
+    //   climber.pleaseStop();
     // }
 
-    // if (psController.getRawButtonPressed(4)){
-    // climber.downWeGo();
+    // if (driverController.getRawButtonPressed(4)) {
+    //   climber.downWeGo();
     // }
 
-    // if (psController.getRawButtonReleased(4)){
-    // climber.pleaseStop();
+    // if (driverController.getRawButtonReleased(4)) {
+    //   climber.pleaseStop();
     // }
 
-    // if (psController.getRawButtonPressed(14)){
-    // conveyer.beltFast();
+    // if (driverController.getRawButtonPressed(14)) {
+    //   conveyer.beltFast();
     // }
 
-    // if (psController.getRawButtonReleased(14)){
+    // if (driverController.getRawButtonReleased(14)) {
     // conveyer.beltStop();
     // }
 

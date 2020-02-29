@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -134,7 +135,9 @@ public class Climber extends SubsystemBase {
 
   public double getPressure(){
     // Output: 0.5V–4.5V linear voltage output. 0 psi outputs 0.5V, 100 psi outputs 2.5V, 200 psi outputs 4.5V
-    return 200 * (pressureSensor.getVoltage() - 0.5) / 4.0;
+    //return 200 * (pressureSensor.getVoltage() - 0.5) / 4.0;
+
+    return 250 * pressureSensor.getVoltage() / 5.0 - 25.0;
   }
  
 }
