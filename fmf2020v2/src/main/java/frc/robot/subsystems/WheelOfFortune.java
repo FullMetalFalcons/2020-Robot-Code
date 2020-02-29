@@ -19,7 +19,9 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -42,6 +44,8 @@ public class WheelOfFortune extends SubsystemBase {
 
    private WPI_TalonSRX wofMotor = new WPI_TalonSRX(6);
 
+   private DoubleSolenoid pushPop;
+
    private static final double kS = 2.09;
    private static final double kV = 0.109;
    private static final double kA = 0.172;
@@ -49,6 +53,8 @@ public class WheelOfFortune extends SubsystemBase {
    private static final SimpleMotorFeedforward FEED_FORWARD = new SimpleMotorFeedforward(kS, kV, kA);
 
   public WheelOfFortune() {
+
+    pushPop = new DoubleSolenoid(0 , 1);
 
     TalonSRXConfiguration talonConfig = new TalonSRXConfiguration();
     talonConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
@@ -101,6 +107,14 @@ public class WheelOfFortune extends SubsystemBase {
 
   public void spinWheel(){
     wofMotor.set(ControlMode.PercentOutput, 1);
+  }
+
+  private void wofUp(){
+    pushPop.set(Value.kForward);
+  }
+
+  private void wofDown(){
+    pushPop.set(Value.kReverse);
   }
 
   public void spinForRotations() {

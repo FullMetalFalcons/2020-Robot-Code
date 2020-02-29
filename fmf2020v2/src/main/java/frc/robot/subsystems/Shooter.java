@@ -37,11 +37,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void ShootOut() {
-    rightWheel.set(1);
+    rightWheel.set(0.7);
   }
 
   public void ShootIn() {
-    rightWheel.set(-1);
+    rightWheel.set(-0.7);
   }
 
   public void ShootStop() {

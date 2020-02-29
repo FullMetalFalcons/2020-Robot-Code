@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,6 +32,8 @@ public class Indexer extends SubsystemBase {
 
   public DigitalInput limitSwitch;
 
+  // public DutyCycleEncoder encoder;
+
   public Indexer() {
     beltBottom = new WPI_TalonSRX(5);
     beltTop = new WPI_TalonSRX(23);
@@ -38,6 +41,8 @@ public class Indexer extends SubsystemBase {
     limitSwitch = new DigitalInput(0);
 
     lift = new DoubleSolenoid(6,7);
+
+    // encoder = new DutyCycleEncoder(0);
 
     beltBottom.follow(beltTop);
 
@@ -76,6 +81,10 @@ public class Indexer extends SubsystemBase {
   public void conveyerDown(){
     lift.set(Value.kReverse);
   }
+
+  // public double encoderRotations(){
+  //   return encoder.getDistance();
+  // }
 
   public boolean isBallAvailable() {
     return !limitSwitch.get();
