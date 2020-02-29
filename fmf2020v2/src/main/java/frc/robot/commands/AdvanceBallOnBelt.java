@@ -33,7 +33,7 @@ public class AdvanceBallOnBelt extends CommandBase {
   @Override
   public void execute() {
     Robot.intake.intakeIn();
-    Robot.intake.intakeRetract();
+    // Robot.intake.intakeRetract();
   }
 
   // Called once the command ends or is interrupted.
