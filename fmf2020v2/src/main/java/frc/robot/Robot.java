@@ -164,6 +164,14 @@ public class Robot extends TimedRobot {
       conveyer.beltStop();
     }
 
+    if (driverController.getRawButtonPressed(7)) {
+      shooter.ShootOut();
+    }
+
+    if (driverController.getRawButtonReleased(7)){
+      shooter.ShootStop();
+    }
+
 ////////////
 
     // if (driverController.getRawButtonPressed(1)){

@@ -122,7 +122,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putString("Pose", differentialDriveOdometry.getPoseMeters().toString());
     // This method will be called once per scheduler run
 
-    System.out.printf("%d, %d\n", getLeftEncoderPosition(), getRightEncoderPosition());
+    // System.out.printf("%d, %d\n", getLeftEncoderPosition(), getRightEncoderPosition());
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
