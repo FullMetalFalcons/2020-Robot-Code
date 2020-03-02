@@ -47,8 +47,7 @@ public class AdvanceBallOnBelt extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return System.currentTimeMillis() - startTime > 2000;
+    return System.currentTimeMillis() - startTime > 2000;
     // return Robot.conveyer.encoderRotations() - rotations > 2;
-    return true;
   }
 }

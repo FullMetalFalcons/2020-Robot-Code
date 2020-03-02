@@ -59,7 +59,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public void beltUp() {
-    beltTop.set(ControlMode.PercentOutput, -0.20);
+    beltTop.set(ControlMode.PercentOutput, -1);
   }
 
   public void beltFastOut() {

@@ -100,8 +100,6 @@ public class Robot extends TimedRobot {
 
     targetX = table.getEntry("yaw");
     targetY = table.getEntry("pitch");
-
-    this.intake.intakeIn();
   }
 
   @Override
@@ -135,12 +133,12 @@ public class Robot extends TimedRobot {
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-    if (driverController.getRawButton(6)) {
+    if (driverController.getRawButton(5)) {
       intake.intakeExtend();
     }
 
-    if (driverController.getRawButton(7)) {
-      intake.intakeIn();
+    if (driverController.getRawButton(6)) {
+      intake.intakeRetract();
     }
 
     if (driverController.getRawButton(1)) {
@@ -166,10 +164,19 @@ public class Robot extends TimedRobot {
 
     if (driverController.getRawButtonPressed(7)) {
       shooter.ShootOut();
+
     }
 
     if (driverController.getRawButtonReleased(7)){
       shooter.ShootStop();
+    }
+
+    if (driverController.getRawButton(11)){
+      conveyer.conveyerUp();
+    }
+
+    if (driverController.getRawButton(12)){
+      conveyer.conveyerDown();
     }
 
 ////////////

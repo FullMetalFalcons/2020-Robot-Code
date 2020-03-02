@@ -25,7 +25,7 @@ public class Shooter extends SubsystemBase {
     rightWheel = new CANSparkMax(15, MotorType.kBrushless);
     leftWheel = new CANSparkMax(16, MotorType.kBrushless);
 
-    leftWheel.follow(rightWheel);
+    // leftWheel.follow(rightWheel);
 
     leftWheel.setInverted(true);
 
@@ -37,7 +37,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void ShootOut() {
-    rightWheel.set(0.7);
+    rightWheel.set(1);
+    leftWheel.set(1);
   }
 
   public void ShootIn() {
@@ -46,5 +47,6 @@ public class Shooter extends SubsystemBase {
 
   public void ShootStop() {
     rightWheel.set(0);
+    leftWheel.set(0);
   }
 }
