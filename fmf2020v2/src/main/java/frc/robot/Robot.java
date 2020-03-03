@@ -141,8 +141,12 @@ public class Robot extends TimedRobot {
       intake.intakeRetract();
     }
 
-    if (driverController.getRawButton(1)) {
-      ballIntake.schedule();
+    if (driverController.getRawButtonPressed(1)) {
+      intake.intakeOut();
+    }
+
+    if (driverController.getRawButtonReleased(1)){
+      intake.intakeStop();
     }
 
     if (driverController.getRawButtonPressed(2)) {
@@ -152,6 +156,7 @@ public class Robot extends TimedRobot {
 
     if (driverController.getRawButtonReleased(2)) {
       intake.intakeStop();
+      intake.intakeRetract();
     }
 
     if (driverController.getRawButtonPressed(3)) {
