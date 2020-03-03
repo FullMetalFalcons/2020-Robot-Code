@@ -164,7 +164,6 @@ public class Robot extends TimedRobot {
 
     if (driverController.getRawButtonPressed(7)) {
       shooter.ShootOut();
-
     }
 
     if (driverController.getRawButtonReleased(7)){
