@@ -122,7 +122,9 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putNumber("SetPoint", setPoint);
   }
 
-
+  public void shootLow(){
+    pidController.setReference(2000, ControlType.kVelocity);
+  }
 
   public void ShootStop() {
     rightWheel.set(0);
