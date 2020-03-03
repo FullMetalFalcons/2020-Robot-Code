@@ -74,9 +74,11 @@ public class Robot extends TimedRobot {
 
    private double rotationAjust;
    private double distanceAdjust;
+   public  Dashboard dashboard;
 
   @Override
   public void robotInit() {
+    Dashboard.init();
     CameraServer.getInstance().startAutomaticCapture();
 
     driverController = new XboxController(0);
@@ -168,10 +170,12 @@ public class Robot extends TimedRobot {
     }
 
     if (driverController.getRawButtonPressed(7)) {
-      shooter.ShootOut();
+      //shooter.ShootOut();
+
+      shooter.ShooterShootByRPM();
     }
 
-    if (driverController.getRawButtonReleased(7)){
+    if (driverController.getRawButtonPressed(8)){
       shooter.ShootStop();
     }
 
