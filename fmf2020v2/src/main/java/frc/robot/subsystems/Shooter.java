@@ -33,14 +33,34 @@ public class Shooter extends SubsystemBase {
 
    private CANEncoder shooterEncoder;
 
-  private double kP = 0.00065;
-   private double kI = 0.00000015;
-   private double kD = 0.000025;
+  private double kP = 0.00025;
+   private double kI = 0.000001;
+   private double kD = 0.0000;
    private double kIz = 0;
-   private double kFF = 0.000015;
+   private double kFF = 0.000175;  
    private double kMaxOutput = 1;
    private double kMinOutput = 0;
    private double maxRPM = 5700;
+
+   /* 
+   5500rpm
+   P:0.000250
+   I:0.000001
+   D:0.0
+   FF: 0.000175
+
+   5000rpm
+   P:0.000250
+   I:0.0000010
+   D:0.0
+   FF:0.0000150
+
+   4500rpm
+   P:
+   I:
+   D:
+   FF:
+   */
    
    private CANPIDController pidController;
 
@@ -88,7 +108,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ProcessVariable", shooterEncoder.getVelocity());
+    SmartDashboard.putNumber("RPM", shooterEncoder.getVelocity());
+    SmartDashboard.putNumber("Target RPM", shooterRPM);
+    
   }
 
   public void ShooterShootByRPM()
@@ -112,7 +134,7 @@ public class Shooter extends SubsystemBase {
     }
 
 
-    pidController.setReference(4000, ControlType.kVelocity);
+    pidController.setReference(shooterRPM, ControlType.kVelocity);
   }
 
   public void ShootOut() {

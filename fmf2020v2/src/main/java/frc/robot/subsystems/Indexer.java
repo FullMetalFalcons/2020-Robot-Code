@@ -38,7 +38,7 @@ public class Indexer extends SubsystemBase {
     beltBottom = new WPI_TalonSRX(5);
     beltTop = new WPI_TalonSRX(23);
 
-    limitSwitch = new DigitalInput(0);
+    // limitSwitch = new DigitalInput(0);
 
     lift = new DoubleSolenoid(6,7);
 
