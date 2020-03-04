@@ -30,7 +30,9 @@ public class BallPickupStage1 extends InstantCommand {
   @Override
   public void initialize() {
     done = false;
-    Robot.intake.intakeExtend();
+    //Robot.intake.intakeExtend();
+
+    Robot.intake.intakeRetract();
     }
   // Called every time the scheduler runs while the command is scheduled.
   

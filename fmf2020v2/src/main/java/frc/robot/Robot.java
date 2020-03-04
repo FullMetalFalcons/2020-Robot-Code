@@ -104,6 +104,8 @@ public class Robot extends TimedRobot {
 
     targetX = table.getEntry("yaw");
     targetY = table.getEntry("pitch");
+
+    conveyer.conveyerUp();
   }
 
   @Override

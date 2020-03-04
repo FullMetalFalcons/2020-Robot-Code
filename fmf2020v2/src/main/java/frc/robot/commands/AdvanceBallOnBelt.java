@@ -21,21 +21,23 @@ public class AdvanceBallOnBelt extends CommandBase {
 
   public AdvanceBallOnBelt() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.conveyer);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
-    Robot.conveyer.beltUp();
+    //Robot.conveyer.beltUp();
     //Robot.conveyer.rollerIn();
 
-    // rotations = Robot.conveyer.encoderRotations();
+    rotations = Robot.conveyer.encoderRotations();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Robot.conveyer.beltUp();
   }
 
   // Called once the command ends or is interrupted.
@@ -47,7 +49,7 @@ public class AdvanceBallOnBelt extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return System.currentTimeMillis() - startTime > 2000;
-    // return Robot.conveyer.encoderRotations() - rotations > 2;
+    //return System.currentTimeMillis() - startTime > 2000;
+    return Robot.conveyer.encoderRotations() - rotations > 2;
   }
 }

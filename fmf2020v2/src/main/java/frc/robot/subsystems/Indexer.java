@@ -32,7 +32,7 @@ public class Indexer extends SubsystemBase {
 
   public DigitalInput limitSwitch;
 
-  // public DutyCycleEncoder encoder;
+  public DutyCycleEncoder encoder;
 
   public Indexer() {
     beltBottom = new WPI_TalonSRX(5);
@@ -42,7 +42,7 @@ public class Indexer extends SubsystemBase {
 
     lift = new DoubleSolenoid(6,7);
 
-    // encoder = new DutyCycleEncoder(0);
+    encoder = new DutyCycleEncoder(0);
 
     beltBottom.follow(beltTop);
 
@@ -82,9 +82,9 @@ public class Indexer extends SubsystemBase {
     lift.set(Value.kReverse);
   }
 
-  // public double encoderRotations(){
-  //   return encoder.getDistance();
-  // }
+  public double encoderRotations(){
+    return encoder.getDistance();
+  }
 
   public boolean isBallAvailable() {
     return !limitSwitch.get();
