@@ -27,16 +27,16 @@ public class Climber extends SubsystemBase {
    private CANSparkMax elevatorMotor;
    private CANSparkMax winchMotor;
 
-   private CANPIDController pidController;
+  //  private CANPIDController pidController;
    private CANEncoder encoder;
 
-   private double kP = 0.1;
-   private double kI = 0.0001;
-   private double kD = 1;
-   private double kIz = 0;
-   private double kFF = 0;
-   private double kMaxOutput = 1;
-   private double kMinOutput = -1;
+  //  private double kP = 0.1;
+  //  private double kI = 0.0001;
+  //  private double kD = 1;
+  //  private double kIz = 0;
+  //  private double kFF = 0;
+  //  private double kMaxOutput = 1;
+  //  private double kMinOutput = -1;
 
    private  final AnalogInput pressureSensor;
 
@@ -51,18 +51,18 @@ public class Climber extends SubsystemBase {
     elevatorMotor.setIdleMode(IdleMode.kBrake);
 
 
-    pidController = elevatorMotor.getPIDController();
+    // pidController = elevatorMotor.getPIDController();
 
     encoder = elevatorMotor.getEncoder();
 
     pressureSensor = new AnalogInput(2);
 
-    pidController.setP(kP);
-    pidController.setI(kI);
-    pidController.setD(kD);
-    pidController.setIZone(kIz);
-    pidController.setFF(kFF);
-    pidController.setOutputRange(kMinOutput, kMaxOutput);
+    // pidController.setP(kP);
+    // pidController.setI(kI);
+    // pidController.setD(kD);
+    // pidController.setIZone(kIz);
+    // pidController.setFF(kFF);
+    // pidController.setOutputRange(kMinOutput, kMaxOutput);
 
   }
 
@@ -72,14 +72,16 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Pressure", this.getPressure());
 
     SmartDashboard.putNumber("Elevator Height", encoder.getPosition());
+
+    //lowest -109.76412
   }
 
   public void elevatorUp() {
-    elevatorMotor.set(1.0);
+    elevatorMotor.set(0.8);
   }
 
   public void elevatorDown() {
-    elevatorMotor.set(-0.5);
+    elevatorMotor.set(-0.7);
   }
 
   public void elevatorStop() {
@@ -105,16 +107,16 @@ public class Climber extends SubsystemBase {
     return 250 * pressureSensor.getVoltage() / 5.0 - 25.0;
   }
 
-  public void elevatorTiltDown(){
-    pidController.setReference(4, ControlType.kPosition);
-  }
+  // public void elevatorTiltDown(){
+  //   pidController.setReference(4, ControlType.kPosition);
+  // }
 
-  public void elevatorTiltUp(){
-    pidController.setReference(5, ControlType.kPosition);
-  }
+  // public void elevatorTiltUp(){
+  //   pidController.setReference(10, ControlType.kPosition);
+  // }
 
-  public void elevatorLevel(){
-    pidController.setReference(6, ControlType.kPosition);
-  }
+  // public void elevatorLevel(){
+  //   pidController.setReference(6, ControlType.kPosition);
+  // }
  
 }

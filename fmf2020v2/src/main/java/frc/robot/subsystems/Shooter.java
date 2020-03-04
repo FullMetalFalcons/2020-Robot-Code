@@ -33,15 +33,17 @@ public class Shooter extends SubsystemBase {
 
    private CANEncoder shooterEncoder;
 
-  private double kP = 0.001;
-   private double kI = 0;
-   private double kD = 0.9;
+  private double kP = 0.00065;
+   private double kI = 0.00000015;
+   private double kD = 0.000025;
    private double kIz = 0;
    private double kFF = 0.000015;
    private double kMaxOutput = 1;
-   private double kMinOutput = -1;
+   private double kMinOutput = 0;
    private double maxRPM = 5700;
-  private CANPIDController pidController;
+   
+   private CANPIDController pidController;
+
   public Shooter() {
 
     rightWheel = new CANSparkMax(15, MotorType.kBrushless);
