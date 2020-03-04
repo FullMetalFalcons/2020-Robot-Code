@@ -61,6 +61,8 @@ public class Drivetrain extends SubsystemBase {
   /** Voltage needed to induce a given acceleration in the motor shaft. kA */
   public static final double kA = 0.676;
 
+
+  public static boolean kGyroReversed = false;
   public static final SimpleMotorFeedforward FEED_FORWARD = new SimpleMotorFeedforward(kS, kV, kA);
 
   public Drivetrain() {
@@ -138,8 +140,13 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
-  private double getHeading() {
+  public  double getHeading() {
     return Math.IEEEremainder(gyro.getAngle(), 360.0d) * -1.0d;
+  }
+  public double getTurnRate() {
+
+    return gyro.getRate() * (kGyroReversed ? -1.0 : 1.0);
+
   }
 
   public void zeroDriveTrainEncoders() {
