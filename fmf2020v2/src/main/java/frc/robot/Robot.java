@@ -97,8 +97,14 @@ public class Robot extends TimedRobot {
     advanceBall = new AdvanceBallOnBelt();
     robotContainer = new RobotContainer();
     pickupStage1 = new BallPickupStage1();
-    ballIntake = new SequentialCommandGroup(new BallPickupStage1(), new WaitCommand(1), new BallPickupStage2(),
-        new WaitCommand(1), new BallPickupStage1(), new AdvanceBallOnBelt());
+    ballIntake = new SequentialCommandGroup(
+      new BallPickupStage1(), 
+      new WaitCommand(1), 
+      new BallPickupStage2(),
+      new WaitCommand(1), 
+      new BallPickupStageX(),
+      new WaitCommand(1),
+      new AdvanceBallOnBelt());
 
     table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
 

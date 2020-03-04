@@ -13,8 +13,8 @@ import frc.robot.Robot;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class BallPickupStage3 extends InstantCommand {
-  public BallPickupStage3() {
+public class BallPickupStageX extends InstantCommand {
+  public BallPickupStageX() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -22,6 +22,5 @@ public class BallPickupStage3 extends InstantCommand {
   @Override
   public void initialize() {
     Robot.intake.intakeRetract();
-    Robot.intake.intakeOut();
   }
 }
