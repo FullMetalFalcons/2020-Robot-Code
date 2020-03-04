@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
     drivetrain.tankDrive(leftYStick, rightYStick);
 
     if (driverController.getRawButtonPressed(5)) {
-      climber.elevatorUp();
+      climber.elevatorTiltUp();
     }
 
     if (driverController.getRawButtonReleased(5)){
