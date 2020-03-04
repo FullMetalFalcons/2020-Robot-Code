@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     targetX = table.getEntry("yaw");
     targetY = table.getEntry("pitch");
 
-    conveyer.conveyerUp();
+    //conveyer.conveyerUp();
   }
 
   @Override
@@ -157,10 +157,12 @@ public class Robot extends TimedRobot {
 
     if (driverController.getRawButtonPressed(1)) {
       intake.intakeOut();
+      conveyer.beltUp();
     }
 
     if (driverController.getRawButtonReleased(1)){
       intake.intakeStop();
+      conveyer.beltStop();
     }
 
     if (driverController.getRawButtonPressed(2)) {
@@ -197,6 +199,10 @@ public class Robot extends TimedRobot {
 
     if (driverController.getRawButton(12)){
       conveyer.conveyerDown();
+    }
+
+    if (driverController.getRawButton(4)){
+      ballIntake.schedule();
     }
 
 ////////////

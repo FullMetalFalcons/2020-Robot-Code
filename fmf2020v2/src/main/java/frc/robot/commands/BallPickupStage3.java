@@ -7,27 +7,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Robot;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class BallIntake extends SequentialCommandGroup {
-  /**
-   * Creates a new BallIntake.
-   */
-  public BallIntake() {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    super(
-      //new BallPickupStage1(),
-      //new WaitCommand(1),
-      //new BallPickupStage2(), 
-      //new WaitCommand(1), 
-      new BallPickupStage3() 
-      //new WaitCommand(10), 
-      //new AdvanceBallOnBelt()
-      );
+public class BallPickupStage3 extends InstantCommand {
+  public BallPickupStage3() {
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    Robot.intake.intakeRetract();
+    Robot.intake.intakeOut();
   }
 }
