@@ -44,7 +44,6 @@ public class AdvanceBallOnBelt extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Robot.conveyer.beltStop();
-//    Robot.intake.intakeStop();
   }
 
   // Returns true when the command should end.

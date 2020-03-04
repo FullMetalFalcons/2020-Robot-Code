@@ -25,7 +25,7 @@ public class BallIntake extends SequentialCommandGroup {
       //new WaitCommand(1),
       //new BallPickupStage2(), 
       //new WaitCommand(1), 
-      new BallPickupStage3() 
+      new BallPickupStageX() 
       //new WaitCommand(10), 
       //new AdvanceBallOnBelt()
       );
