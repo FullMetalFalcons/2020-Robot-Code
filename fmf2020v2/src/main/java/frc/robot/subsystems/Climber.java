@@ -73,7 +73,8 @@ public class Climber extends SubsystemBase {
 
     SmartDashboard.putNumber("Elevator Height", encoder.getPosition());
 
-    //lowest -109.76412
+    //lowest 10.16
+    //highest 265
   }
 
   public void elevatorUp() {
