@@ -44,7 +44,8 @@ public class Indexer extends SubsystemBase {
     lift = new DoubleSolenoid(6,7);
 
     encoder = new DutyCycleEncoder(0);
-
+    encoder.setDistancePerRotation(5); // 5 inch per rotation
+    encoder.reset();
     beltBottom.follow(beltTop);
 
     beltTop.setInverted(false);
@@ -91,4 +92,13 @@ public class Indexer extends SubsystemBase {
   public boolean isBallAvailable() {
     return !limitSwitch.get();
   } 
+  public void resetEncoder() {
+    encoder.reset();
+  }
+  public double getPosition() {
+    return encoder.get();
+  }
+  public double distanceTravel() {
+    return encoder.getDistance();
+  }
 }

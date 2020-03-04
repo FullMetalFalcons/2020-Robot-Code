@@ -30,8 +30,7 @@ public class AdvanceBallOnBelt extends CommandBase {
     startTime = System.currentTimeMillis();
     //Robot.conveyer.beltUp();
     //Robot.conveyer.rollerIn();
-
-    rotations = Robot.conveyer.encoderRotations();
+    Robot.conveyer.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,6 +49,6 @@ public class AdvanceBallOnBelt extends CommandBase {
   @Override
   public boolean isFinished() {
     //return System.currentTimeMillis() - startTime > 2000;
-    return Robot.conveyer.encoderRotations() - rotations > 2;
+    return Robot.conveyer.distanceTravel() > 3 ;  //inches
   }
 }
