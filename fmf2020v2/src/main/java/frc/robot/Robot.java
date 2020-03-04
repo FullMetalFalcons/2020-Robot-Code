@@ -145,13 +145,13 @@ public class Robot extends TimedRobot {
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-    if (driverController.getRawButtonPressed(5)) {
+    if (driverController.getRawButton(5)) {
       climber.elevatorTiltUp();
     }
 
-    if (driverController.getRawButtonReleased(5)){
-      climber.elevatorStop();
-    }
+    // if (driverController.getRawButtonReleased(5)){
+    //   climber.elevatorStop();
+    // }
 
     if (driverController.getRawButtonPressed(6)) {
       climber.elevatorDown();

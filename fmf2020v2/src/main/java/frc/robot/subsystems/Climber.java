@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import javax.xml.stream.events.EndDocument;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -30,15 +32,17 @@ public class Climber extends SubsystemBase {
    private CANPIDController pidController;
    private CANEncoder encoder;
 
-   private double kP = 0.1;
-   private double kI = 0.0001;
+   private double kP = 0.01;
+   private double kI = 0;
    private double kD = 0;
    private double kIz = 0;
    private double kFF = 0;
-   private double kMaxOutput = 1;
-   private double kMinOutput = -1;
+   private double kMaxOutput = 0.6;
+   private double kMinOutput = 0;
 
    private  final AnalogInput pressureSensor;
+
+   private double startPos;
 
   public Climber() {
     elevatorMotor = new CANSparkMax(13, MotorType.kBrushless);
@@ -63,6 +67,8 @@ public class Climber extends SubsystemBase {
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
+
+    startPos = encoder.getPosition();
 
   }
 
@@ -108,16 +114,21 @@ public class Climber extends SubsystemBase {
     return 250 * pressureSensor.getVoltage() / 5.0 - 25.0;
   }
 
+  public void getCurrentHeight(){
+    encoder.getPosition();
+  }
+
   public void elevatorTiltDown(){
-    pidController.setReference(4, ControlType.kPosition);
+    pidController.setReference(startPos + 200, ControlType.kPosition);
   }
 
   public void elevatorTiltUp(){
-    pidController.setReference(10, ControlType.kPosition);
+
+    pidController.setReference(startPos + 265, ControlType.kPosition);
   }
 
   public void elevatorLevel(){
-    pidController.setReference(6, ControlType.kPosition);
+    pidController.setReference(startPos + 230, ControlType.kPosition);
   }
  
 }
