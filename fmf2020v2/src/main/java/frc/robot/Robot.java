@@ -145,7 +145,7 @@ public class Robot extends TimedRobot {
 
     drivetrain.tankDrive(leftYStick, rightYStick);
 
-    if (driverController.getRawButton(5)) {
+    if (operatorController.getRawButton(6)) {
       climber.elevatorTiltUp();
     }
 
@@ -153,61 +153,61 @@ public class Robot extends TimedRobot {
     //   climber.elevatorStop();
     // }
 
-    if (driverController.getRawButtonPressed(6)) {
+    if (operatorController.getRawButtonPressed(5)) {
       climber.elevatorDown();
     }
 
-    if (driverController.getRawButtonReleased(6)){
+    if (operatorController.getRawButtonReleased(5)){
       climber.elevatorStop();
     }
 
-    if (driverController.getRawButtonPressed(1)) {
+    if (operatorController.getRawButtonPressed(1)) {
       intake.intakeOut();
       conveyer.beltUp();
     }
 
-    if (driverController.getRawButtonReleased(1)){
+    if (operatorController.getRawButtonReleased(1)){
       intake.intakeStop();
       conveyer.beltStop();
     }
 
-    if (driverController.getRawButtonPressed(2)) {
+    if (operatorController.getRawButtonPressed(2)) {
       intake.intakeIn();
       intake.intakeExtend();
     }
 
-    if (driverController.getRawButtonReleased(2)) {
+    if (operatorController.getRawButtonReleased(2)) {
       intake.intakeStop();
       intake.intakeRetract();
     }
 
-    if (driverController.getRawButtonPressed(3)) {
+    if (operatorController.getRawButtonPressed(3)) {
       conveyer.beltUp();
     }
 
-    if (driverController.getRawButtonReleased(3)) {
+    if (operatorController.getRawButtonReleased(3)) {
       conveyer.beltStop();
     }
 
-    if (driverController.getRawButtonPressed(7)) {
+    if (operatorController.getRawButtonPressed(7)) {
       //shooter.ShootOut();
 
       shooter.ShooterShootByRPM();
     }
 
-    if (driverController.getRawButtonPressed(8)){
+    if (operatorController.getRawButtonPressed(8)){
       shooter.ShootStop();
     }
 
-    if (driverController.getRawButton(11)){
+    if (operatorController.getRawButton(12)){
       conveyer.conveyerUp();
     }
 
-    if (driverController.getRawButton(12)){
+    if (operatorController.getRawButton(11)){
       conveyer.conveyerDown();
     }
 
-    if (driverController.getRawButton(4)){
+    if (operatorController.getRawButton(4)){
       ballIntake.schedule();
     }
 
@@ -270,21 +270,21 @@ public class Robot extends TimedRobot {
     //   ballIntake.schedule();
     // }
 
-    // if (driverController.getRawButtonPressed(3)) {
-    //   climber.upWeGo();
-    // }
+    if (driverController.getRawButtonPressed(3)) {
+      climber.upWeGo();
+    }
 
-    // if (driverController.getRawButtonReleased(3)) {
-    //   climber.pleaseStop();
-    // }
+    if (driverController.getRawButtonReleased(3)) {
+      climber.pleaseStop();
+    }
 
-    // if (driverController.getRawButtonPressed(4)) {
-    //   climber.downWeGo();
-    // }
+    if (driverController.getRawButtonPressed(4)) {
+      climber.downWeGo();
+    }
 
-    // if (driverController.getRawButtonReleased(4)) {
-    //   climber.pleaseStop();
-    // }
+    if (driverController.getRawButtonReleased(4)) {
+      climber.pleaseStop();
+    }
 
     // if (driverController.getRawButtonPressed(14)) {
     //   conveyer.beltFast();

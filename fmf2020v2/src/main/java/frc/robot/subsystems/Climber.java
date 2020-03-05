@@ -54,6 +54,7 @@ public class Climber extends SubsystemBase {
     winchMotor.setIdleMode(IdleMode.kBrake);
     elevatorMotor.setIdleMode(IdleMode.kBrake);
 
+    elevatorMotor.setSmartCurrentLimit(30);
 
     pidController = elevatorMotor.getPIDController();
 
@@ -124,7 +125,7 @@ public class Climber extends SubsystemBase {
 
   public void elevatorTiltUp(){
 
-    pidController.setReference(startPos + 265, ControlType.kPosition);
+    pidController.setReference(startPos + 295, ControlType.kPosition);
   }
 
   public void elevatorLevel(){
