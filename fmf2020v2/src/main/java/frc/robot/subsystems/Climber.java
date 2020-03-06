@@ -54,7 +54,7 @@ public class Climber extends SubsystemBase {
     winchMotor.setIdleMode(IdleMode.kBrake);
     elevatorMotor.setIdleMode(IdleMode.kBrake);
 
-    elevatorMotor.setSmartCurrentLimit(30);
+    elevatorMotor.setSmartCurrentLimit(20);
 
     pidController = elevatorMotor.getPIDController();
 

@@ -9,6 +9,8 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.SequenceWriter;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -17,8 +19,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
    private double rotationAjust;
    private double distanceAdjust;
    public  Dashboard dashboard;
-
+  public SequentialCommandGroup shootandMoveAuto;
   @Override
   public void robotInit() {
     Dashboard.init();
@@ -97,6 +98,7 @@ public class Robot extends TimedRobot {
     advanceBall = new AdvanceBallOnBelt();
     robotContainer = new RobotContainer();
     pickupStage1 = new BallPickupStage1();
+
     ballIntake = new SequentialCommandGroup(
       new BallPickupStage1(), 
       new WaitCommand(1), 
@@ -104,9 +106,26 @@ public class Robot extends TimedRobot {
       new WaitCommand(1), 
       new BallPickupStageX(),
       new WaitCommand(1),
-      new AdvanceBallOnBelt());
+      new AdvanceBallOnBelt()
+      );
 
-    table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
+
+    shootandMoveAuto = new SequentialCommandGroup
+            (
+            new InstantCommand(()->shooter.ShootByRPM(4200)),
+            new WaitCommand(2),
+            new InstantCommand(()->conveyer.beltUp()),
+            new WaitCommand(3),  
+            new InstantCommand(()->drivetrain.arcadeDrive(0.3, 0)),
+            new WaitCommand(2),
+            new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
+            new InstantCommand(()->conveyer.beltStop()),
+            new InstantCommand(()->shooter.ShootStop())
+            );
+
+
+
+      table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
 
     targetX = table.getEntry("yaw");
     targetY = table.getEntry("pitch");
@@ -121,12 +140,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    robotContainer.resetOdometry();
-    autonomousCommand = robotContainer.getAutonomousCommand();
+    // robotContainer.resetOdometry();
+    // autonomousCommand = robotContainer.getAutonomousCommand();
 
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+    
+    shootandMoveAuto.schedule();
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.schedule();
+    // }
+
   }
 
   @Override
@@ -297,7 +319,7 @@ public class Robot extends TimedRobot {
     rotationAjust = 0;
     distanceAdjust = 0;
 
-    if (driverController.getRawButton(13)) {
+    if (driverController.getRawButton(1)) {
       
       rotationError=targetX.getDouble(0.0);
       distanceError=targetY.getDouble(0.0);

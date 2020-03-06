@@ -112,6 +112,13 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Target RPM", shooterRPM);
     
   }
+  public void ShootByRPM(double RPM) {
+    
+    
+    pidController.setReference(RPM, ControlType.kVelocity);
+
+  }
+
 
   public void ShooterShootByRPM()
   {
@@ -151,6 +158,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void ShootStop() {
-    rightWheel.set(0);
+    rightWheel.stopMotor();
   }
 }
