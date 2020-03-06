@@ -61,9 +61,9 @@ public class Indexer extends SubsystemBase {
     SmartDashboard.putNumber("Indexer Encoder", encoder.get());
   }
 
-  public void beltUp() {
-    beltTop.set(ControlMode.PercentOutput, -1);
-  }
+  // public void beltUp() {
+  //   beltTop.set(ControlMode.PercentOutput, -1);
+  // }
 
   public void beltFastOut() {
     beltTop.set(ControlMode.PercentOutput, -1);

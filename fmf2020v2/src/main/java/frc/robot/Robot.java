@@ -64,6 +64,9 @@ public class Robot extends TimedRobot {
    public static AdvanceBallOnBelt advanceBall;
    public static BallPickupStage1 pickupStage1;
    public static SequentialCommandGroup ballIntake;
+   public static SequentialCommandGroup fourthBall;
+   public static SequentialCommandGroup shootOneBall;
+
    private double rotationError;
    private double distanceError;
 
@@ -78,7 +81,10 @@ public class Robot extends TimedRobot {
    private double rotationAjust;
    private double distanceAdjust;
    public  Dashboard dashboard;
-  public SequentialCommandGroup shootandMoveAuto;
+
+   //autos
+   public SequentialCommandGroup shootandMoveAuto;
+
   @Override
   public void robotInit() {
     Dashboard.init();
@@ -108,15 +114,31 @@ public class Robot extends TimedRobot {
       new WaitCommand(1),
       new AdvanceBallOnBelt()
       );
+    
+      fourthBall = new SequentialCommandGroup(
+      new BallPickupStage1(), 
+      new WaitCommand(1), 
+      new BallPickupStage2(),
+      new WaitCommand(1), 
+      new BallPickupStageX()
+      );
+
+      shootOneBall = new SequentialCommandGroup(
+        new InstantCommand(()->shooter.ShootByRPM(5500)),
+        new WaitCommand(1),
+        new AdvanceBallOnBelt(),
+        new WaitCommand(0.5),
+        new InstantCommand(()->shooter.ShootStop())
+      );
 
 
     shootandMoveAuto = new SequentialCommandGroup
             (
-            new InstantCommand(()->shooter.ShootByRPM(4200)),
-            new WaitCommand(2),
-            new InstantCommand(()->conveyer.beltUp()),
-            new WaitCommand(3),  
-            new InstantCommand(()->drivetrain.arcadeDrive(0.3, 0)),
+            new InstantCommand(()->shooter.ShootByRPM(5500)),
+            new WaitCommand(5),
+            new InstantCommand(()->conveyer.beltFastOut()),
+            new WaitCommand(5),  
+            new InstantCommand(()->drivetrain.arcadeDrive(0.6, 0)),
             new WaitCommand(2),
             new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
             new InstantCommand(()->conveyer.beltStop()),
@@ -125,7 +147,7 @@ public class Robot extends TimedRobot {
 
 
 
-    table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
+    table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("VisionCamera");
 
     targetYaw = table.getEntry("targetYaw");
     targetPitch = table.getEntry("targetPitch");
@@ -162,135 +184,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
+    // Driver Controls
+
     double leftYStick = driverController.getY(Hand.kLeft);
     double rightYStick = driverController.getY(Hand.kRight);
 
     drivetrain.tankDrive(leftYStick, rightYStick);
-
-    if (operatorController.getRawButton(6)) {
-      climber.elevatorTiltUp();
-    }
-
-    // if (driverController.getRawButtonReleased(5)){
-    //   climber.elevatorStop();
-    // }
-
-    if (operatorController.getRawButtonPressed(5)) {
-      climber.elevatorDown();
-    }
-
-    if (operatorController.getRawButtonReleased(5)){
-      climber.elevatorStop();
-    }
-
-    if (operatorController.getRawButtonPressed(1)) {
-      intake.intakeOut();
-      conveyer.beltUp();
-    }
-
-    if (operatorController.getRawButtonReleased(1)){
-      intake.intakeStop();
-      conveyer.beltStop();
-    }
-
-    if (operatorController.getRawButtonPressed(2)) {
-      intake.intakeIn();
-      intake.intakeExtend();
-    }
-
-    if (operatorController.getRawButtonReleased(2)) {
-      intake.intakeStop();
-      intake.intakeRetract();
-    }
-
-    if (operatorController.getRawButtonPressed(3)) {
-      conveyer.beltUp();
-    }
-
-    if (operatorController.getRawButtonReleased(3)) {
-      conveyer.beltStop();
-    }
-
-    if (operatorController.getRawButtonPressed(7)) {
-      //shooter.ShootOut();
-
-      shooter.ShooterShootByRPM();
-    }
-
-    if (operatorController.getRawButtonPressed(8)){
-      shooter.ShootStop();
-    }
-
-    if (operatorController.getRawButton(12)){
-      conveyer.conveyerUp();
-    }
-
-    if (operatorController.getRawButton(11)){
-      conveyer.conveyerDown();
-    }
-
-    if (operatorController.getRawButton(4)){
-      ballIntake.schedule();
-    }
-
-////////////
-
-    // if (driverController.getRawButtonPressed(1)){
-    // intake.intakeConstant();
-    // }
-    // if (driverController.getRawButtonReleased(1)) {
-    //   intake.intakeStop();
-    // }
-
-    // if (driverController.getRawButtonPressed(2)) {
-    //   intake.intakeReverse();
-    // }
-    // if (driverController.getRawButtonReleased(2)) {
-    //   intake.intakeStop();
-    // }
-
-    // if (driverController.getRawButtonPressed(11)) {
-    //   conveyer.beltIn();
-    // }
-    // if (driverController.getRawButtonReleased(11)) {
-    //   conveyer.beltStop();
-    // }
-
-    // if (driverController.getRawButtonPressed(12)) {
-    //   // conveyer.beltOut();
-    //   advanceBall.schedule();
-    // }
-    // // if (psController.getRawButtonReleased(12)) {
-    // // conveyer.beltStop();
-    // // }
-
-    // if (driverController.getRawButton(5)) {
-    //   intake.intakeExtend();
-    // }
-
-    // if (driverController.getRawButton(6)) {
-    //   intake.intakeIn();
-    // }
-
-    // if (driverController.getRawButton(7)) {
-    //   climber.elevatorDown();
-    // }
-
-    // if (driverController.getRawButtonReleased(7)) {
-    //   climber.elevatorStop();
-    // }
-
-    // if (driverController.getRawButton(8)) {
-    //   climber.elevatorUp();
-    // }
-
-    // if (driverController.getRawButtonReleased(8)) {
-    //   climber.elevatorStop();
-    // }
-
-    // if (driverController.getRawButton(9)) {
-    //   ballIntake.schedule();
-    // }
 
     if (driverController.getRawButtonPressed(3)) {
       climber.upWeGo();
@@ -308,13 +208,14 @@ public class Robot extends TimedRobot {
       climber.pleaseStop();
     }
 
-    // if (driverController.getRawButtonPressed(14)) {
-    //   conveyer.beltFast();
-    // }
+    if (driverController.getRawButtonPressed(5)){
+      drivetrain.tankDrive(0.5 * leftYStick,  0.5 * rightYStick);
+    }
 
-    // if (driverController.getRawButtonReleased(14)) {
-    // conveyer.beltStop();
-    // }
+    if (driverController.getRawButtonReleased(5)){
+      drivetrain.tankDrive(leftYStick, rightYStick);
+    }
+
 
     rotationAjust = 0;
     distanceAdjust = 0;
@@ -336,8 +237,89 @@ public class Robot extends TimedRobot {
         if(distanceError<distanceTolerance)
           distanceAdjust=KpDist*distanceError-constantForce;
 
-      drivetrain.arcadeDrive(distanceAdjust, rotationAjust);
+      drivetrain.arcadeDrive(-distanceAdjust, rotationAjust);
     }
+
+    //Operator Controls
+
+    int dpad = operatorController.getPOV(0);
+
+    if (dpad == 0){
+      climber.elevatorTiltUp();
+    } 
+    if (dpad == 270) {
+      climber.elevatorZero();
+    } 
+    if (dpad == 90) {
+      climber.elevatorLevel();
+    } 
+    if (dpad == 180) {
+      climber.elevatorTiltDown();
+    }
+
+    if (operatorController.getRawButton(1)){
+      shootOneBall.schedule();
+    }
+
+    if (operatorController.getRawButtonPressed(2)) {
+      intake.intakeIn();
+      intake.intakeExtend();
+    }
+
+    if (operatorController.getRawButtonReleased(2)) {
+      intake.intakeStop();
+      intake.intakeRetract();
+    }
+
+    if (operatorController.getRawButton(3)) {
+      fourthBall.schedule();
+    }
+
+    if (operatorController.getRawButton(4)){
+      ballIntake.schedule();
+    }
+
+    if (operatorController.getRawButton(5)){
+      conveyer.conveyerDown();
+    }
+
+    if (operatorController.getRawButton(6)){
+      conveyer.conveyerUp();
+    }
+
+    if (operatorController.getRawButtonPressed(7)) {
+      shooter.ShootStop();
+    }
+
+    if (operatorController.getRawButtonPressed(8)){
+      shooter.ShooterShootByRPM();
+    }
+
+    if (operatorController.getRawButtonPressed(9)){
+      climber.elevatorDown();
+    }
+
+    if (operatorController.getRawButtonReleased(9)){
+      climber.elevatorStop();
+    }
+
+    if (operatorController.getRawButtonPressed(13)){
+      conveyer.beltDown();
+    }
+
+    if (operatorController.getRawButtonReleased(13)){
+      conveyer.beltStop();
+    }
+
+    if (operatorController.getRawButtonPressed(12)){
+      conveyer.beltFastOut();
+    } 
+
+    if (operatorController.getRawButtonReleased(12)){
+      conveyer.beltStop();
+    }
+
+
 
   }
 
