@@ -57,8 +57,8 @@ public class Robot extends TimedRobot {
 
    private NetworkTable table;
 
-   private NetworkTableEntry targetX;
-   private NetworkTableEntry targetY;
+   private NetworkTableEntry targetYaw;
+   private NetworkTableEntry targetPitch;
 
    //public static IntakeSystem autoIntake;
    public static AdvanceBallOnBelt advanceBall;
@@ -125,10 +125,10 @@ public class Robot extends TimedRobot {
 
 
 
-      table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
+    table = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("DriverCam");
 
-    targetX = table.getEntry("yaw");
-    targetY = table.getEntry("pitch");
+    targetYaw = table.getEntry("targetYaw");
+    targetPitch = table.getEntry("targetPitch");
 
     //conveyer.conveyerUp();
   }
@@ -321,8 +321,8 @@ public class Robot extends TimedRobot {
 
     if (driverController.getRawButton(1)) {
       
-      rotationError=targetX.getDouble(0.0);
-      distanceError=targetY.getDouble(0.0);
+      rotationError=targetYaw.getDouble(0.0);
+      distanceError=targetPitch.getDouble(0.0);
 
       if(rotationError>angleTolerance)
         rotationAjust=KpRot*rotationError+constantForce;
