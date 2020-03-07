@@ -105,7 +105,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void pleaseStop() {
-    winchMotor.stopMotor();
+    winchMotor.set(0);
   }
 
   public double getPressure(){

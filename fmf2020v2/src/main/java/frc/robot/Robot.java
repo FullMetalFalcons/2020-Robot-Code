@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
 
    //autos
    public SequentialCommandGroup shootandMoveAuto;
+   public SequentialCommandGroup driveForwardAuto;
 
   @Override
   public void robotInit() {
@@ -123,27 +124,36 @@ public class Robot extends TimedRobot {
       new BallPickupStageX()
       );
 
-      shootOneBall = new SequentialCommandGroup(
-        new InstantCommand(()->shooter.ShootByRPM(5500)),
-        new WaitCommand(1),
-        new AdvanceBallOnBelt(),
-        new WaitCommand(0.5),
-        new InstantCommand(()->shooter.ShootStop())
-      );
+    shootOneBall = new SequentialCommandGroup(
+      new InstantCommand(()->shooter.ShootByRPM(5500)),
+      new WaitCommand(1),
+      new AdvanceBallOnBelt(),
+      new WaitCommand(0.5),
+      new InstantCommand(()->shooter.ShootStop())
+    );
 
 
-    shootandMoveAuto = new SequentialCommandGroup
-            (
-            new InstantCommand(()->shooter.ShootByRPM(5500)),
-            new WaitCommand(5),
-            new InstantCommand(()->conveyer.beltFastOut()),
-            new WaitCommand(5),  
-            new InstantCommand(()->drivetrain.arcadeDrive(0.6, 0)),
-            new WaitCommand(2),
-            new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
-            new InstantCommand(()->conveyer.beltStop()),
-            new InstantCommand(()->shooter.ShootStop())
-            );
+    shootandMoveAuto = new SequentialCommandGroup(
+      new InstantCommand(()->shooter.ShootByRPM(5500)),
+      new WaitCommand(3),
+      new InstantCommand(()->conveyer.beltFastOut()),
+      new WaitCommand(5),  
+      new InstantCommand(()->drivetrain.arcadeDrive(0.6, 0)),
+      new WaitCommand(2),
+      new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
+      new InstantCommand(()->conveyer.beltStop()),
+      new InstantCommand(()->shooter.ShootStop()),
+      new InstantCommand(()->intake.intakeExtend())
+    );
+
+    driveForwardAuto = new SequentialCommandGroup(
+      new InstantCommand(()->drivetrain.arcadeDrive(-0.4, 0)),
+      new WaitCommand(5),
+      new InstantCommand(()->drivetrain.arcadeDrive(0, 0))
+    );
+
+
+    
 
 
 
