@@ -34,12 +34,11 @@ public class Indexer extends SubsystemBase {
   public DigitalInput limitSwitch;
 
   public DutyCycleEncoder encoder;
+  private int counter = 0;
 
   public Indexer() {
     beltBottom = new WPI_TalonSRX(5);
     beltTop = new WPI_TalonSRX(23);
-
-    // limitSwitch = new DigitalInput(0);
 
     lift = new DoubleSolenoid(6,7);
 
@@ -59,11 +58,8 @@ public class Indexer extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Indexer Encoder", encoder.get());
+    SmartDashboard.putNumber("Ball Count", counter);
   }
-
-  // public void beltUp() {
-  //   beltTop.set(ControlMode.PercentOutput, -1);
-  // }
 
   public void beltFastOut() {
     beltTop.set(ControlMode.PercentOutput, -1);
@@ -100,5 +96,14 @@ public class Indexer extends SubsystemBase {
   }
   public double distanceTravel() {
     return encoder.getDistance();
+  }
+
+  public void addOne() {
+    counter++;
+  }
+
+  public void resetCounter()
+  {
+    counter =0;
   }
 }

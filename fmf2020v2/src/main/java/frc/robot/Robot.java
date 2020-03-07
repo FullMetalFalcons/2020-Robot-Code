@@ -107,13 +107,13 @@ public class Robot extends TimedRobot {
     pickupStage1 = new BallPickupStage1();
 
     ballIntake = new SequentialCommandGroup(
-      new BallPickupStage1(), 
-      new WaitCommand(1), 
       new BallPickupStage2(),
-      new WaitCommand(1), 
+      new WaitCommand(0.75), 
       new BallPickupStageX(),
-      new WaitCommand(1),
-      new AdvanceBallOnBelt()
+      new WaitCommand(0.75),
+      new AdvanceBallOnBelt(),
+      new InstantCommand(()->conveyer.addOne())
+
       );
     
       fourthBall = new SequentialCommandGroup(
@@ -134,16 +134,16 @@ public class Robot extends TimedRobot {
 
 
     shootandMoveAuto = new SequentialCommandGroup(
-      new InstantCommand(()->shooter.ShootByRPM(5500)),
-      new WaitCommand(3),
-      new InstantCommand(()->conveyer.beltFastOut()),
-      new WaitCommand(5),  
-      new InstantCommand(()->drivetrain.arcadeDrive(0.6, 0)),
+      new InstantCommand(()->shooter.ShootByRPM(6000)),
       new WaitCommand(2),
+      new InstantCommand(()->conveyer.beltFastOut()),
+      new WaitCommand(4),  
+      new InstantCommand(()->drivetrain.arcadeDrive(0.4, 0)),
+      new WaitCommand(1),
       new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
       new InstantCommand(()->conveyer.beltStop()),
       new InstantCommand(()->shooter.ShootStop()),
-      new InstantCommand(()->intake.intakeExtend())
+      new InstantCommand(()->conveyer.beltDown())
     );
 
     driveForwardAuto = new SequentialCommandGroup(
@@ -161,8 +161,6 @@ public class Robot extends TimedRobot {
 
     targetYaw = table.getEntry("targetYaw");
     targetPitch = table.getEntry("targetPitch");
-
-    //conveyer.conveyerUp();
   }
 
   @Override
@@ -226,6 +224,13 @@ public class Robot extends TimedRobot {
       drivetrain.tankDrive(leftYStick, rightYStick);
     }
 
+    // if (driverController.getRawButtonPressed(8)){
+    //   shooter.shootLow();
+    // }
+
+    // if (driverController.getRawButton(8)){
+    //   shooter.ShootStop();
+    // }
 
     rotationAjust = 0;
     distanceAdjust = 0;
@@ -247,7 +252,7 @@ public class Robot extends TimedRobot {
         if(distanceError<distanceTolerance)
           distanceAdjust=KpDist*distanceError-constantForce;
 
-      drivetrain.arcadeDrive(-distanceAdjust, rotationAjust);
+      drivetrain.arcadeDrive(0, rotationAjust);
     }
 
     //Operator Controls
@@ -297,12 +302,20 @@ public class Robot extends TimedRobot {
       conveyer.conveyerUp();
     }
 
-    if (operatorController.getRawButtonPressed(7)) {
+    if (operatorController.getRawButtonPressed(7)){
+      shooter.shootLow();
+    }
+
+    if (operatorController.getRawButtonReleased(7)) {
       shooter.ShootStop();
     }
 
     if (operatorController.getRawButtonPressed(8)){
       shooter.ShooterShootByRPM();
+    }
+
+    if (operatorController.getRawButtonReleased(8)){
+      shooter.ShootStop();
     }
 
     if (operatorController.getRawButtonPressed(9)){
@@ -323,10 +336,12 @@ public class Robot extends TimedRobot {
 
     if (operatorController.getRawButtonPressed(12)){
       conveyer.beltFastOut();
+
     } 
 
     if (operatorController.getRawButtonReleased(12)){
       conveyer.beltStop();
+      conveyer.resetCounter();
     }
 
 

@@ -95,7 +95,7 @@ public class Shooter extends SubsystemBase {
     maxRPM=  entry.value.getDouble();
    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-    
+    maxRPM = 5000;
     SmartDashboard.putNumber("Shooter P Gain", kP);
     SmartDashboard.putNumber("Shooter I Gain", kI);
     SmartDashboard.putNumber("Shooter D Gain", kD);
