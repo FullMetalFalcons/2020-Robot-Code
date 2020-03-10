@@ -89,6 +89,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     Dashboard.init();
+   
+    
     CameraServer.getInstance().startAutomaticCapture();
 
     driverController = new XboxController(0);
@@ -134,8 +136,8 @@ public class Robot extends TimedRobot {
 
 
     shootandMoveAuto = new SequentialCommandGroup(
-      new InstantCommand(()->shooter.ShootByRPM(6000)),
-      new WaitCommand(2),
+      new InstantCommand(()->shooter.ShootByRPM(5000)),
+      new WaitCommand(4),
       new InstantCommand(()->conveyer.beltFastOut()),
       new WaitCommand(4),  
       new InstantCommand(()->drivetrain.arcadeDrive(0.4, 0)),
@@ -143,7 +145,7 @@ public class Robot extends TimedRobot {
       new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
       new InstantCommand(()->conveyer.beltStop()),
       new InstantCommand(()->shooter.ShootStop()),
-      new InstantCommand(()->conveyer.beltDown())
+      new InstantCommand(()->conveyer.conveyerDown())
     );
 
     driveForwardAuto = new SequentialCommandGroup(
@@ -174,11 +176,26 @@ public class Robot extends TimedRobot {
     // autonomousCommand = robotContainer.getAutonomousCommand();
 
     
-    shootandMoveAuto.schedule();
     // if (autonomousCommand != null) {
     //   autonomousCommand.schedule();
     // }
-
+    double waittime = Dashboard.autoWaitToShoot.getDouble(2);
+    if (waittime < 11 && waittime > 2) {
+    shootandMoveAuto = new SequentialCommandGroup(
+      new InstantCommand(()->shooter.ShootByRPM(5000)),
+      new WaitCommand(waittime),
+      new InstantCommand(()->conveyer.beltFastOut()),
+      new WaitCommand(4),  
+      new InstantCommand(()->drivetrain.arcadeDrive(0.4, 0)),
+      new WaitCommand(1),
+      new InstantCommand(()->drivetrain.arcadeDrive(0, 0)),
+      new InstantCommand(()->conveyer.beltStop()),
+      new InstantCommand(()->shooter.ShootStop()),
+      new InstantCommand(()->conveyer.conveyerDown())
+    );
+    }
+    shootandMoveAuto.schedule();
+    
   }
 
   @Override
@@ -324,6 +341,10 @@ public class Robot extends TimedRobot {
 
     if (operatorController.getRawButtonReleased(9)){
       climber.elevatorStop();
+    }
+
+    if (operatorController.getRawButtonPressed(10)){
+      climber.elevatorUpBoost();
     }
 
     if (operatorController.getRawButtonPressed(13)){

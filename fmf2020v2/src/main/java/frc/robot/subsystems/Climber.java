@@ -125,7 +125,7 @@ public class Climber extends SubsystemBase {
 
   public void elevatorTiltUp(){
 
-    pidController.setReference(startPos + 295, ControlType.kPosition);
+    pidController.setReference(startPos + 300, ControlType.kPosition);
   }
 
   public void elevatorLevel(){
@@ -136,4 +136,9 @@ public class Climber extends SubsystemBase {
     pidController.setReference(startPos, ControlType.kPosition);
   }
  
+  public void elevatorUpBoost() {
+    double currentPos = encoder.getPosition();
+    pidController.setReference(currentPos + 30,  ControlType.kPosition);
+  }
+
 }

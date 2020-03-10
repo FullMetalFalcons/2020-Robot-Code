@@ -24,7 +24,7 @@ public  class Dashboard {
   public static final ShuffleboardTab driverTab = Shuffleboard.getTab("Driver");
   public static final ShuffleboardTab subsystemsTab = Shuffleboard.getTab("Subsystems");
   public static final ShuffleboardTab commandsTab = Shuffleboard.getTab("Commands");
-  
+  public static  NetworkTableEntry autoWaitToShoot;
   public static  NetworkTableEntry shooterRPM;
   public static  NetworkTableEntry MaxRPM;
 
@@ -39,7 +39,14 @@ public  class Dashboard {
         .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
         .getEntry();
 
+    Dashboard.autoWaitToShoot = subsystemsTab
+    .add("Auto Wait Time", 2).getEntry();
+    //.withWidget(BuiltInWidgets.kNumberSlider)
+    //.withProperties(Map.of("min", 2, "max", 10)) // specify widget properties here
+    //.getEntry(); 
 
+
+    
   }
 
 }

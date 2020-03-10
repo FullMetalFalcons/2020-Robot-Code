@@ -50,6 +50,6 @@ public class AdvanceBallOnBelt extends CommandBase {
   @Override
   public boolean isFinished() {
     //return System.currentTimeMillis() - startTime > 2000;
-    return Robot.conveyer.distanceTravel() > 3 ;  //inches
+    return Robot.conveyer.distanceTravel() > 3.5 ;  //inches
   }
 }
